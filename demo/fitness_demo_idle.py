@@ -2,7 +2,7 @@
 """
 AI Fitness Trainer — Capstone Project
 Real-Time Computer Vision Exercise Recognition, Prediction & Muscle Analytics
-Inspired by Modern Pastel Dashboard Designs
+Faithfully styled according to the user's reference design (Coral, Cream, Dark Teal & Pastel Cards)
 """
 
 import cv2
@@ -20,7 +20,7 @@ EXERCISES = {
         "name": "Bicep Curl",
         "category": "Upper Body Strength",
         "primary_muscle": "Biceps Brachii",
-        "secondary_muscles": ["Brachialis", "Brachioradialis (Forearm)", "Anterior Deltoid"],
+        "secondary_muscles": ["Brachialis", "Brachioradialis", "Front Deltoid"],
         "left_landmarks": [11, 13, 15],   # Left Shoulder, Elbow, Wrist
         "right_landmarks": [12, 14, 16],  # Right Shoulder, Elbow, Wrist
         "angle_threshold_down": 155,      # Extension starting phase
@@ -142,9 +142,20 @@ def predict_exercise_from_buffer(history_buffer):
 class FitnessApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("🏋️ Personal AI Fitness Trainer — Real-Time Computer Vision & Analytics")
-        self.root.geometry("1120x850")
-        self.root.configure(bg='#F5F3FF')  # Soft Lavender pastel background
+        self.root.title("🏋️ Personal AI Fitness Trainer")
+        self.root.geometry("1120x860")
+        self.root.configure(bg='#FAF7F0')  # Warm Cream backdrop matching reference
+        
+        # Color Palette from User Reference Design
+        self.CORAL_PINK = "#FF5A79"
+        self.CREAM_BG = "#FAF7F0"
+        self.WARM_YELLOW = "#FFF5E0"
+        self.DARK_TEAL = "#1C4E4B"
+        self.MINT_GREEN = "#2EC4B6"
+        self.GOLD_AMBER = "#FFB800"
+        self.WHITE = "#FFFFFF"
+        self.TEXT_DARK = "#2D3748"
+        self.TEXT_MUTED = "#718096"
         
         # Application State
         self.is_running = False
@@ -170,162 +181,172 @@ class FitnessApp:
         self.update_exercise_details()
         
     def setup_ui(self):
-        # 1. Header Frame (Purple Pastel Theme)
-        header_frame = tk.Frame(self.root, bg='#6D28D9', pady=14, padx=20)
+        # 1. Header Frame (Coral Pink Header matching Reference 1)
+        header_frame = tk.Frame(self.root, bg=self.CORAL_PINK, pady=14, padx=24)
         header_frame.pack(fill='x', side='top')
         
-        title_box = tk.Frame(header_frame, bg='#6D28D9')
-        title_box.pack(side='left', padx=15)
+        title_box = tk.Frame(header_frame, bg=self.CORAL_PINK)
+        title_box.pack(side='left')
         
-        main_title = tk.Label(title_box, text="✨ AI FITNESS TRAINER", 
-                              font=('Segoe UI', 18, 'bold'), bg='#6D28D9', fg='#FFFFFF')
+        greeting_label = tk.Label(title_box, text="Hi, User 👋", 
+                                  font=('Segoe UI', 11, 'bold'), bg=self.CORAL_PINK, fg='#FFE5EC')
+        greeting_label.pack(anchor='w')
+        
+        main_title = tk.Label(title_box, text="Personal AI Workout Trainer", 
+                              font=('Segoe UI', 20, 'bold'), bg=self.CORAL_PINK, fg=self.WHITE)
         main_title.pack(anchor='w')
         
-        subtitle = tk.Label(title_box, text="Real-Time CV Exercise Prediction • Muscle Analytics • Biomechanical Form Evaluation", 
-                            font=('Segoe UI', 10), bg='#6D28D9', fg='#DDD6FE')
-        subtitle.pack(anchor='w')
+        badge_frame = tk.Frame(header_frame, bg=self.CORAL_PINK)
+        badge_frame.pack(side='right')
         
-        badge_frame = tk.Frame(header_frame, bg='#6D28D9')
-        badge_frame.pack(side='right', padx=15)
-        
-        self.ai_mode_badge = tk.Label(badge_frame, text=" 🤖 AI AUTO-PREDICTION ", 
-                                      font=('Segoe UI', 10, 'bold'), bg='#F472B6', fg='white', padx=12, pady=5)
+        self.ai_mode_badge = tk.Label(badge_frame, text=" 🤖 Auto AI Mode ", 
+                                      font=('Segoe UI', 10, 'bold'), bg='#1C1C1C', fg=self.WHITE, padx=14, pady=6)
         self.ai_mode_badge.pack(side='right')
 
-        # 2. Main Content Container
-        main_container = tk.Frame(self.root, bg='#F5F3FF')
-        main_container.pack(fill='both', expand=True, padx=15, pady=12)
+        # 2. Main Content Container (Warm Cream Background)
+        main_container = tk.Frame(self.root, bg=self.CREAM_BG)
+        main_container.pack(fill='both', expand=True, padx=16, pady=14)
         
         # --- LEFT COLUMN: Video Stream Viewport ---
-        left_column = tk.Frame(main_container, bg='#FFFFFF', highlightbackground='#EDE9FE', highlightthickness=2)
+        left_column = tk.Frame(main_container, bg=self.WHITE, highlightbackground='#EFECE6', highlightthickness=1)
         left_column.pack(side='left', fill='both', expand=True, padx=(0, 10))
         
-        viewport_header = tk.Frame(left_column, bg='#FFFFFF', pady=8, padx=12)
+        viewport_header = tk.Frame(left_column, bg=self.WHITE, pady=10, padx=14)
         viewport_header.pack(fill='x')
         
-        vp_title = tk.Label(viewport_header, text="📹 LIVE WEBCAM FEED", 
-                            font=('Segoe UI', 11, 'bold'), bg='#FFFFFF', fg='#5B21B6')
+        vp_title = tk.Label(viewport_header, text="📹 Live Camera Tracking", 
+                            font=('Segoe UI', 12, 'bold'), bg=self.WHITE, fg=self.DARK_TEAL)
         vp_title.pack(side='left')
         
         self.side_badge = tk.Label(viewport_header, text="SIDE: AUTO DETECT", 
-                                   font=('Segoe UI', 9, 'bold'), bg='#EDE9FE', fg='#6D28D9', padx=10, pady=3)
+                                   font=('Segoe UI', 9, 'bold'), bg=self.WARM_YELLOW, fg=self.DARK_TEAL, padx=10, pady=3)
         self.side_badge.pack(side='right')
         
-        # Camera Canvas Frame
-        self.video_frame = tk.Frame(left_column, bg='#1F1938', width=640, height=480)
+        # Camera Frame Viewport
+        self.video_frame = tk.Frame(left_column, bg='#142826', width=640, height=480)
         self.video_frame.pack(fill='both', expand=True, padx=10, pady=5)
         self.video_frame.pack_propagate(False)
         
-        self.video_label = tk.Label(self.video_frame, bg='#1F1938')
+        self.video_label = tk.Label(self.video_frame, bg='#142826')
         self.video_label.pack(expand=True, fill='both')
         
         self.placeholder_text = tk.Label(self.video_frame, 
                                          text="▶ Click 'Start Webcam' below to test AI Exercise Prediction",
-                                         font=('Segoe UI', 13, 'bold'), bg='#1F1938', fg='#C4B5FD')
+                                         font=('Segoe UI', 13, 'bold'), bg='#142826', fg='#A0AEC0')
         self.placeholder_text.place(relx=0.5, rely=0.5, anchor='center')
         
-        # --- RIGHT COLUMN: Exercise Details & Muscle Panel (Pastel Cards) ---
-        right_column = tk.Frame(main_container, bg='#F5F3FF', width=390)
+        # --- RIGHT COLUMN: Design Cards matching Reference Images ---
+        right_column = tk.Frame(main_container, bg=self.CREAM_BG, width=390)
         right_column.pack(side='right', fill='both', padx=(5, 0))
         
-        # CARD 1: AI Prediction Badge & Muscle Target Card
-        muscle_card = tk.LabelFrame(right_column, text=" 🎯 AI CLASSIFIER & TARGET MUSCLE ", 
-                                     font=('Segoe UI', 11, 'bold'), bg='#FFFFFF', fg='#4C1D95', 
-                                     bd=0, highlightbackground='#EDE9FE', highlightthickness=1, padx=14, pady=12)
-        muscle_card.pack(fill='x', pady=(0, 10))
+        # CARD 1: Learning Progress / Muscle Target Card (Warm Yellow Background like Reference 1)
+        muscle_card = tk.Frame(right_column, bg=self.WARM_YELLOW, bd=0, padx=16, pady=14)
+        muscle_card.pack(fill='x', pady=(0, 12))
         
-        self.prediction_badge = tk.Label(muscle_card, text="AI PREDICTION: IDLE (STAND IN FRAME)", 
-                                         font=('Segoe UI', 10, 'bold'), bg='#EDE9FE', fg='#6D28D9', 
+        card1_top = tk.Frame(muscle_card, bg=self.WARM_YELLOW)
+        card1_top.pack(fill='x', pady=(0, 6))
+        
+        card1_title = tk.Label(card1_top, text="Exercise Progress", 
+                               font=('Segoe UI', 13, 'bold'), bg=self.WARM_YELLOW, fg=self.TEXT_DARK)
+        card1_title.pack(side='left')
+        
+        card1_badge = tk.Label(card1_top, text="Active", 
+                               font=('Segoe UI', 9, 'bold'), bg=self.WHITE, fg=self.MINT_GREEN, padx=8, pady=2)
+        card1_badge.pack(side='right')
+        
+        self.prediction_badge = tk.Label(muscle_card, text="AI PREDICTION: IDLE", 
+                                         font=('Segoe UI', 10, 'bold'), bg=self.WHITE, fg=self.CORAL_PINK, 
                                          padx=10, pady=5)
-        self.prediction_badge.pack(fill='x', pady=(0, 10))
+        self.prediction_badge.pack(fill='x', pady=(4, 10))
         
-        p_muscle_lbl = tk.Label(muscle_card, text="PRIMARY MUSCLE TARGETED:", 
-                                font=('Segoe UI', 8, 'bold'), bg='#FFFFFF', fg='#8B5CF6')
+        p_muscle_lbl = tk.Label(muscle_card, text="PRIMARY TARGET MUSCLE", 
+                                font=('Segoe UI', 8, 'bold'), bg=self.WARM_YELLOW, fg=self.TEXT_MUTED)
         p_muscle_lbl.pack(anchor='w')
         
         self.primary_muscle_badge = tk.Label(muscle_card, text="Biceps Brachii", 
-                                             font=('Segoe UI', 14, 'bold'), bg='#8B5CF6', fg='white', 
+                                             font=('Segoe UI', 13, 'bold'), bg=self.CORAL_PINK, fg=self.WHITE, 
                                              padx=14, pady=6)
         self.primary_muscle_badge.pack(anchor='w', pady=(4, 10))
         
-        s_muscle_lbl = tk.Label(muscle_card, text="SECONDARY MUSCLE GROUPS:", 
-                                font=('Segoe UI', 8, 'bold'), bg='#FFFFFF', fg='#8B5CF6')
+        s_muscle_lbl = tk.Label(muscle_card, text="SECONDARY MUSCLES", 
+                                font=('Segoe UI', 8, 'bold'), bg=self.WARM_YELLOW, fg=self.TEXT_MUTED)
         s_muscle_lbl.pack(anchor='w')
         
         self.secondary_muscles_label = tk.Label(muscle_card, text="Brachialis • Forearms • Deltoid", 
-                                                font=('Segoe UI', 9, 'bold'), bg='#F3E8FF', fg='#6D28D9', 
-                                                padx=10, pady=5, wraplength=340, justify='left')
-        self.secondary_muscles_label.pack(anchor='w', pady=(4, 4))
+                                                font=('Segoe UI', 9, 'bold'), bg=self.WHITE, fg=self.DARK_TEAL, 
+                                                padx=10, pady=5, wraplength=330, justify='left')
+        self.secondary_muscles_label.pack(anchor='w', pady=(4, 2))
         
-        # CARD 2: Workout Metrics Dashboard
-        metrics_card = tk.LabelFrame(right_column, text=" 📊 REPETITION METRICS ", 
-                                      font=('Segoe UI', 11, 'bold'), bg='#FFFFFF', fg='#4C1D95', 
-                                      bd=0, highlightbackground='#EDE9FE', highlightthickness=1, padx=14, pady=12)
-        metrics_card.pack(fill='x', pady=(0, 10))
+        # CARD 2: Repetitions & ROM Card (Dark Teal Accent Card like Reference 1)
+        metrics_card = tk.Frame(right_column, bg=self.DARK_TEAL, padx=16, pady=14)
+        metrics_card.pack(fill='x', pady=(0, 12))
         
-        metrics_grid = tk.Frame(metrics_card, bg='#FFFFFF')
+        metrics_title = tk.Label(metrics_card, text="Workout Metrics", 
+                                 font=('Segoe UI', 12, 'bold'), bg=self.DARK_TEAL, fg=self.WHITE)
+        metrics_title.pack(anchor='w', pady=(0, 8))
+        
+        metrics_grid = tk.Frame(metrics_card, bg=self.DARK_TEAL)
         metrics_grid.pack(fill='x')
         
-        # Rep Counter Box (Soft Teal Tile)
-        rep_box = tk.Frame(metrics_grid, bg='#F0FDF4', padx=12, pady=10, bd=1, relief='solid')
+        # Rep Counter Pill Box (Coral Pink Pill matching Ref #1 Leaderboard)
+        rep_box = tk.Frame(metrics_grid, bg=self.CORAL_PINK, padx=12, pady=10)
         rep_box.grid(row=0, column=0, sticky='nsew', padx=(0, 5))
         
-        tk.Label(rep_box, text="REPETITIONS", font=('Segoe UI', 8, 'bold'), bg='#F0FDF4', fg='#15803D').pack()
-        self.rep_count_val = tk.Label(rep_box, text="0", font=('Segoe UI', 24, 'bold'), bg='#F0FDF4', fg='#166534')
+        tk.Label(rep_box, text="REPETITIONS", font=('Segoe UI', 8, 'bold'), bg=self.CORAL_PINK, fg='#FFE5EC').pack()
+        self.rep_count_val = tk.Label(rep_box, text="0", font=('Segoe UI', 24, 'bold'), bg=self.CORAL_PINK, fg=self.WHITE)
         self.rep_count_val.pack()
         
-        # Calories Box (Soft Amber Tile)
-        cal_box = tk.Frame(metrics_grid, bg='#FFFBEB', padx=12, pady=10, bd=1, relief='solid')
+        # Calories Box (Amber Pill matching Ref #1 Leaderboard)
+        cal_box = tk.Frame(metrics_grid, bg=self.GOLD_AMBER, padx=12, pady=10)
         cal_box.grid(row=0, column=1, sticky='nsew', padx=(5, 0))
         
-        tk.Label(cal_box, text="EST. CALORIES", font=('Segoe UI', 8, 'bold'), bg='#FFFBEB', fg='#B45309').pack()
-        self.cal_count_val = tk.Label(cal_box, text="0.0 kcal", font=('Segoe UI', 18, 'bold'), bg='#FFFBEB', fg='#92400E')
+        tk.Label(cal_box, text="EST. CALORIES", font=('Segoe UI', 8, 'bold'), bg=self.GOLD_AMBER, fg='#5C4300').pack()
+        self.cal_count_val = tk.Label(cal_box, text="0.0 kcal", font=('Segoe UI', 18, 'bold'), bg=self.GOLD_AMBER, fg=self.TEXT_DARK)
         self.cal_count_val.pack(pady=(4, 0))
         
         metrics_grid.columnconfigure(0, weight=1)
         metrics_grid.columnconfigure(1, weight=1)
         
-        # Joint Angle & ROM Progress Meter
-        rom_frame = tk.Frame(metrics_card, bg='#FFFFFF', pady=8)
+        # ROM Progress Bar
+        rom_frame = tk.Frame(metrics_card, bg=self.DARK_TEAL, pady=8)
         rom_frame.pack(fill='x')
         
-        rom_lbl_row = tk.Frame(rom_frame, bg='#FFFFFF')
+        rom_lbl_row = tk.Frame(rom_frame, bg=self.DARK_TEAL)
         rom_lbl_row.pack(fill='x')
         
-        self.angle_display_lbl = tk.Label(rom_lbl_row, text="Joint Angle: --°", font=('Segoe UI', 10, 'bold'), bg='#FFFFFF', fg='#4C1D95')
+        self.angle_display_lbl = tk.Label(rom_lbl_row, text="Joint Angle: --°", font=('Segoe UI', 10, 'bold'), bg=self.DARK_TEAL, fg=self.WHITE)
         self.angle_display_lbl.pack(side='left')
         
-        self.rom_pct_lbl = tk.Label(rom_lbl_row, text="ROM: 0%", font=('Segoe UI', 10, 'bold'), bg='#FFFFFF', fg='#059669')
+        self.rom_pct_lbl = tk.Label(rom_lbl_row, text="ROM: 0%", font=('Segoe UI', 10, 'bold'), bg=self.DARK_TEAL, fg=self.MINT_GREEN)
         self.rom_pct_lbl.pack(side='right')
         
-        # Progress Bar
         style = ttk.Style()
         style.theme_use('default')
-        style.configure("Fitness.Horizontal.TProgressbar", thickness=12, troughcolor='#ECE9FE', background='#8B5CF6')
+        style.configure("Fitness.Horizontal.TProgressbar", thickness=12, troughcolor='#123331', background=self.MINT_GREEN)
         self.rom_progress = ttk.Progressbar(rom_frame, style="Fitness.Horizontal.TProgressbar", 
                                             orient="horizontal", mode="determinate", length=320)
         self.rom_progress.pack(fill='x', pady=4)
         
         # Form Status Banner
         self.form_status_badge = tk.Label(metrics_card, text="STATUS: READY", 
-                                          font=('Segoe UI', 11, 'bold'), bg='#F3E8FF', fg='#6D28D9', pady=6)
+                                          font=('Segoe UI', 10, 'bold'), bg=self.WHITE, fg=self.DARK_TEAL, pady=6)
         self.form_status_badge.pack(fill='x', pady=(6, 0))
         
-        # CARD 3: Form Guidance
-        coaching_card = tk.LabelFrame(right_column, text=" 💡 FORM & COACHING TIPS ", 
-                                       font=('Segoe UI', 11, 'bold'), bg='#FFFFFF', fg='#4C1D95', 
-                                       bd=0, highlightbackground='#EDE9FE', highlightthickness=1, padx=14, pady=12)
+        # CARD 3: Coaching Tips
+        coaching_card = tk.Frame(right_column, bg=self.WHITE, padx=16, pady=12, highlightbackground='#EFECE6', highlightthickness=1)
         coaching_card.pack(fill='both', expand=True)
         
+        tk.Label(coaching_card, text="💡 Coaching Tips", font=('Segoe UI', 11, 'bold'), bg=self.WHITE, fg=self.TEXT_DARK).pack(anchor='w')
+        
         self.tips_label = tk.Label(coaching_card, text="", font=('Segoe UI', 9), 
-                                   bg='#FFFFFF', fg='#4B5563', justify='left', anchor='nw', wraplength=340)
-        self.tips_label.pack(fill='both', expand=True)
+                                   bg=self.WHITE, fg=self.TEXT_MUTED, justify='left', anchor='nw', wraplength=340)
+        self.tips_label.pack(fill='both', expand=True, pady=(4, 0))
 
         # 3. Bottom Control Toolbar
-        control_bar = tk.Frame(self.root, bg='#FFFFFF', pady=12, padx=20, highlightbackground='#EDE9FE', highlightthickness=1)
+        control_bar = tk.Frame(self.root, bg=self.WHITE, pady=12, padx=20, highlightbackground='#EFECE6', highlightthickness=1)
         control_bar.pack(fill='x', side='bottom')
         
-        select_lbl = tk.Label(control_bar, text="TRACKING MODE:", font=('Segoe UI', 10, 'bold'), bg='#FFFFFF', fg='#4C1D95')
+        select_lbl = tk.Label(control_bar, text="SELECT MODE:", font=('Segoe UI', 10, 'bold'), bg=self.WHITE, fg=self.TEXT_DARK)
         select_lbl.pack(side='left', padx=(0, 8))
         
         self.mode_var = tk.StringVar(value="auto_detect")
@@ -334,20 +355,20 @@ class FitnessApp:
         self.exercise_combo.pack(side='left', padx=(0, 15))
         self.exercise_combo.bind('<<ComboboxSelected>>', self.on_mode_change)
         
-        # Action Buttons
-        self.start_btn = tk.Button(control_bar, text="▶ START WEBCAM", command=self.start_webcam, 
-                                   bg='#10B981', fg='white', font=('Segoe UI', 10, 'bold'), 
-                                   activebackground='#059669', activeforeground='white', padx=16, pady=6, bd=0, cursor='hand2')
+        # Action Buttons matching Reference Design Pills
+        self.start_btn = tk.Button(control_bar, text="▶ Start Webcam", command=self.start_webcam, 
+                                   bg=self.DARK_TEAL, fg=self.WHITE, font=('Segoe UI', 10, 'bold'), 
+                                   activebackground='#153D3B', activeforeground=self.WHITE, padx=18, pady=6, bd=0, cursor='hand2')
         self.start_btn.pack(side='left', padx=5)
         
-        self.stop_btn = tk.Button(control_bar, text="⏹ STOP TRACKING", command=self.stop_webcam, 
-                                  bg='#EF4444', fg='white', font=('Segoe UI', 10, 'bold'), 
-                                  activebackground='#DC2626', activeforeground='white', padx=16, pady=6, bd=0, state='disabled', cursor='hand2')
+        self.stop_btn = tk.Button(control_bar, text="⏹ Stop", command=self.stop_webcam, 
+                                  bg=self.CORAL_PINK, fg=self.WHITE, font=('Segoe UI', 10, 'bold'), 
+                                  activebackground='#E04362', activeforeground=self.WHITE, padx=18, pady=6, bd=0, state='disabled', cursor='hand2')
         self.stop_btn.pack(side='left', padx=5)
         
-        self.reset_btn = tk.Button(control_bar, text="🔄 RESET METRICS", command=self.reset_counter, 
-                                   bg='#8B5CF6', fg='white', font=('Segoe UI', 10, 'bold'), 
-                                   activebackground='#7C3AED', activeforeground='white', padx=16, pady=6, bd=0, cursor='hand2')
+        self.reset_btn = tk.Button(control_bar, text="🔄 Reset", command=self.reset_counter, 
+                                   bg=self.GOLD_AMBER, fg=self.TEXT_DARK, font=('Segoe UI', 10, 'bold'), 
+                                   activebackground='#E5A600', activeforeground=self.TEXT_DARK, padx=18, pady=6, bd=0, cursor='hand2')
         self.reset_btn.pack(side='left', padx=5)
 
     def update_exercise_details(self):
@@ -367,9 +388,9 @@ class FitnessApp:
         self.mode_selection = self.mode_var.get()
         if self.mode_selection != "auto_detect":
             self.active_exercise = self.mode_selection
-            self.ai_mode_badge.config(text=f" MANUAL: {EXERCISES[self.active_exercise]['name'].upper()} ", bg='#3B82F6')
+            self.ai_mode_badge.config(text=f" Manual: {EXERCISES[self.active_exercise]['name']} ", bg=self.DARK_TEAL)
         else:
-            self.ai_mode_badge.config(text=" 🤖 AI AUTO-PREDICTION ", bg='#F472B6')
+            self.ai_mode_badge.config(text=" 🤖 Auto AI Mode ", bg='#1C1C1C')
         self.reset_counter()
         self.update_exercise_details()
 
@@ -383,12 +404,12 @@ class FitnessApp:
         self.cal_count_val.config(text="0.0 kcal")
         self.rom_progress['value'] = 0
         self.rom_pct_lbl.config(text="ROM: 0%")
-        self.form_status_badge.config(text="STATUS: READY - START REP", bg='#F3E8FF', fg='#6D28D9')
+        self.form_status_badge.config(text="STATUS: READY", bg=self.WHITE, fg=self.DARK_TEAL)
 
     def start_webcam(self):
         self.cap = cv2.VideoCapture(0)
         if not self.cap.isOpened():
-            self.form_status_badge.config(text="❌ WEBCAM ERROR: DEVICE NOT FOUND", bg='#FEE2E2', fg='#991B1B')
+            self.form_status_badge.config(text="❌ WEBCAM ERROR", bg='#FFE5EC', fg=self.CORAL_PINK)
             return
             
         self.is_running = True
@@ -396,7 +417,7 @@ class FitnessApp:
         self.stop_btn.config(state='normal')
         if hasattr(self, 'placeholder_text') and self.placeholder_text:
             self.placeholder_text.destroy()
-        self.form_status_badge.config(text="STATUS: AI CLASSIFICATION ACTIVE", bg='#DCFCE7', fg='#166534')
+        self.form_status_badge.config(text="STATUS: TRACKING ACTIVE", bg='#E6FFFA', fg=self.DARK_TEAL)
         self.update_frame()
 
     def stop_webcam(self):
@@ -406,7 +427,7 @@ class FitnessApp:
             self.cap = None
         self.start_btn.config(state='normal')
         self.stop_btn.config(state='disabled')
-        self.form_status_badge.config(text="STATUS: TRACKING STOPPED", bg='#F3F4F6', fg='#4B5563')
+        self.form_status_badge.config(text="STATUS: STOPPED", bg='#EDF2F7', fg=self.TEXT_MUTED)
 
     def update_frame(self):
         if not self.is_running or self.cap is None:
@@ -414,7 +435,7 @@ class FitnessApp:
             
         ret, frame = self.cap.read()
         if not ret:
-            self.form_status_badge.config(text="❌ FRAME CAPTURE ERROR", bg='#FEE2E2', fg='#991B1B')
+            self.form_status_badge.config(text="❌ FRAME ERROR", bg='#FFE5EC', fg=self.CORAL_PINK)
             self.stop_webcam()
             return
             
@@ -423,10 +444,10 @@ class FitnessApp:
         
         # Update AI Prediction Badge
         if pred_name == "idle":
-            self.prediction_badge.config(text="AI PREDICTION: IDLE / STANDING", bg='#F3E8FF', fg='#6D28D9')
+            self.prediction_badge.config(text="AI PREDICTION: IDLE / STANDING", bg=self.WHITE, fg=self.CORAL_PINK)
         else:
             self.prediction_badge.config(text=f"AI PREDICTED: {EXERCISES[pred_name]['name'].upper()} ({conf}% CONF)", 
-                                         bg='#8B5CF6', fg='white')
+                                         bg=self.CORAL_PINK, fg=self.WHITE)
             if self.mode_selection == "auto_detect" and pred_name != self.active_exercise:
                 self.active_exercise = pred_name
                 self.update_exercise_details()
@@ -439,13 +460,13 @@ class FitnessApp:
             self.stage = current_stage
             self.rep_count_val.config(text=str(self.counter))
             self.cal_count_val.config(text=f"{self.calories_burned:.1f} kcal")
-            self.form_status_badge.config(text="🟢 PERFECT FORM — REP COMPLETED!", bg='#DCFCE7', fg='#166534')
+            self.form_status_badge.config(text="🟢 PERFECT FORM — REP COMPLETED!", bg='#E6FFFA', fg=self.DARK_TEAL)
         elif rep_inc == 0:
             self.stage = current_stage
             if form_msg:
                 self.form_status_badge.config(text=form_msg, 
-                                              bg='#FEF3C7' if 'DEEPER' in form_msg or 'HIGHER' in form_msg else '#F3E8FF',
-                                              fg='#92400E' if 'DEEPER' in form_msg or 'HIGHER' in form_msg else '#6D28D9')
+                                              bg=self.WARM_YELLOW if 'DEEPER' in form_msg or 'HIGHER' in form_msg else self.WHITE,
+                                              fg=self.TEXT_DARK if 'DEEPER' in form_msg or 'HIGHER' in form_msg else self.DARK_TEAL)
 
         # ROM progress bar update
         if rom_pct is not None:
@@ -528,10 +549,11 @@ class FitnessApp:
                 rom_pct = calculate_rom_percentage(ex_key, angle)
                 
                 pt1, pt2, pt3 = (int(pts[0][0]), int(pts[0][1])), (int(pts[1][0]), int(pts[1][1])), (int(pts[2][0]), int(pts[2][1]))
-                cv2.line(image_bgr, pt1, pt2, (244, 114, 182), 4)  # Pink highlight
-                cv2.line(image_bgr, pt2, pt3, (244, 114, 182), 4)
+                # Coral Pink & Mint highlights matching reference design
+                cv2.line(image_bgr, pt1, pt2, (121, 90, 255), 4)
+                cv2.line(image_bgr, pt2, pt3, (121, 90, 255), 4)
                 cv2.circle(image_bgr, pt1, 8, (255, 255, 255), -1)
-                cv2.circle(image_bgr, pt2, 8, (139, 92, 246), -1)  # Purple joint
+                cv2.circle(image_bgr, pt2, 8, (182, 196, 46), -1)  # Mint joint
                 cv2.circle(image_bgr, pt3, 8, (255, 255, 255), -1)
                 
                 cv2.putText(image_bgr, f"{int(angle)} deg", (pt2[0] + 15, pt2[1]), 
@@ -564,20 +586,20 @@ class FitnessApp:
         else:
             cfg = EXERCISES[self.active_exercise]
 
-        # --- In-Video Visual Overlay Banners ---
-        cv2.rectangle(image_bgr, (10, 10), (420, 80), (44, 25, 78), -1)
+        # In-Video Visual Overlay Banners
+        cv2.rectangle(image_bgr, (10, 10), (420, 80), (28, 78, 75), -1)
         pred_label_txt = f"AI PREDICTED: {pred_exercise.upper()} ({conf}%)" if pred_exercise != "idle" else "AI PREDICTED: IDLE"
         cv2.putText(image_bgr, pred_label_txt, (20, 34), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (196, 181, 253) if pred_exercise != "idle" else (252, 211, 77), 2)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (182, 196, 46) if pred_exercise != "idle" else (0, 184, 255), 2)
         
         cv2.putText(image_bgr, f"TRACKING: {cfg['name']} ({cfg['primary_muscle']})", (20, 64), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (244, 114, 182), 2)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
         
         # Bottom Status Banner
-        cv2.rectangle(image_bgr, (0, 440), (640, 480), (30, 20, 50), -1)
+        cv2.rectangle(image_bgr, (0, 440), (640, 480), (20, 40, 38), -1)
         status_txt = form_msg if form_msg else f"ACTIVE SIDE: {active_side_name}"
         cv2.putText(image_bgr, status_txt, (20, 468), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (196, 181, 253), 2)
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (182, 196, 46), 2)
         
         return image_bgr, rep_inc, angle, current_stage, rom_pct, form_msg, active_side_name, pred_exercise, conf
 
