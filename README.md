@@ -22,18 +22,17 @@ This project addresses these challenges by developing an AI-driven personal fitn
 
 While the baseline framework is grounded in research on real-time exercise classification (*arXiv:2411.11548*), this capstone initiative focuses on extending and standardizing the system through the following enhancements:
 
-### 1. Workout Analytics and Session Tracking
-- Implementation of session-level tracking and structured data logging for completed sets and repetitions.
-- Visualization of historical performance metrics to monitor user progression over time.
-- Automated generation of post-workout summary reports.
+### 1. Exercise Analytics & Target Muscle Intelligence
+- **Bicep Curl**: Tracks *Biceps Brachii* (Primary Target) alongside *Brachialis*, *Brachioradialis (Forearms)*, and *Anterior Deltoid*. Features real-time elbow joint angle tracking and range-of-motion (ROM) progress percentage.
+- **Squat**: Tracks *Quadriceps* (Primary Target) along with *Gluteus Maximus*, *Hamstrings*, *Calves*, and *Core Stabilizers*. Monitors knee flexion angle and validates parallel squat depth (<= 90°).
 
-### 2. Extension of Exercise Repertoire
-- Integration of kinematic analysis and angle-tracking logic for additional compound movements, beginning with lunges.
-- Modularized pose-logic architecture to facilitate future expansion to complex calisthenics exercises.
+### 2. Biomechanical Form & Multi-Side Auto Detection
+- **Dynamic Side Tracking**: Automatically detects whether the left or right side of the body is more visible to the camera stream to maintain keypoint tracking accuracy.
+- **Real-Time Form Feedback Banner**: Live warnings and cues overlaid directly on the UI (e.g. `🟢 PERFECT FORM — REP COMPLETED!`, `🟡 SQUAT DEEPER`, `🟡 CURL HIGHER`).
+- **Calorie Estimation**: Calculates session-level energy expenditure based on per-exercise repetition MET constants.
 
-### 3. Biomechanical Form Evaluation
-- Development of threshold-based posture validation checks to detect form discrepancies (e.g., knee displacement during squats or incomplete extension during curls).
-- Real-time visual warning indicators to guide corrective posture adjustments.
+### 3. UI Dashboard
+- Inspired by modern fitness mobile & web applications, featuring muscle targeting pill badges, live ROM progress meters, repetition stat counters, and coaching instruction cards.
 
 ---
 
@@ -43,8 +42,8 @@ While the baseline framework is grounded in research on real-time exercise class
 |---|---|---|
 | Pose Estimation | MediaPipe Pose | Real-time 33-point skeletal landmark extraction |
 | Temporal Classification | TensorFlow / Keras | Bidirectional LSTM neural network architecture |
-| Application Interface | Tkinter / Streamlit | GUI for webcam feed, real-time counters, and analytics |
-| Computer Vision | OpenCV | Frame manipulation, drawing, and video streaming |
+| Application Interface | Tkinter | Sleek UI for webcam feed, real-time counters, muscle cards, and analytics |
+| Computer Vision | OpenCV | Frame manipulation, angle visualization, and video streaming |
 | Conversational Assistant | OpenAI API / LangChain | Fitness knowledge querying and user interaction |
 | Core Language | Python 3.9+ | Backend pipeline and algorithmic execution |
 
